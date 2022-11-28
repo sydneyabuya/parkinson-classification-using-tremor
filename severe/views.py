@@ -36,9 +36,9 @@ def getClassifier(RPC_X_kin, RPC_Y_kin, RPC_Z_kin, RPC_U_kin, RPC_X_rest, RPC_Y_
     ]))
     
     if prediction == 0:
-        return 'no'
-    elif prediction == 1:
         return 'yes'
+    elif prediction == 1:
+        return 'no'
     else:
         return 'error'
 
