@@ -32,110 +32,123 @@
 
   <body class="center">
     <h1 style="color: rgb(44, 44, 90); font-weight: 700">
-      <i class="fas fa-ship"></i> Titanic Survival Predictor
+      <i class="fas fa-ship"></i> Tremor Classifier
     </h1>
 
     <p style="color: rgb(51, 51, 83); font-weight: 700">
-      Can a passenger with your given characteristics survive?
+      What category does this patient belong?
     </p>
 
     <form action="result">
       {% csrf_token %}
 
+      <!-- RPC_X_kin, RPC_Y_kin, RPC_Z_kin, RPC_X_rest, RPC_Y_rest, RPC_Z_rest,
+            TSI_kin, TSI_amplitude_kin, TSI_rest, TSI_amplitude_rest -->
+
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Passenger Class (1, 2 or 3)"
+          placeholder="RPC_X_kin"
           required
           type="text"
-          name="pclass"
+          name="RPC_X_kin"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Sex (0 for Male, 1 for Female)"
+          placeholder="RPC_Y_kin"
           required
           type="text"
-          name="sex"
+          name="RPC_Y_kin"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Age"
+          placeholder="RPC_Z_kin"
           required
           type="text"
-          name="age"
+          name="RPC_Z_kin"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="No. of Sibling(s) or Spouse(s)"
+          placeholder="RPC_X_rest"
           required
           type="text"
-          name="sibsp"
+          name="RPC_X_rest"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Parch"
+          placeholder="RPC_Y_rest"
           type="text"
           required
-          name="parch"
+          name="RPC_Y_rest"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Ticket Fare"
+          placeholder="RPC_Z_rest"
           required
           type="text"
-          name="fare"
+          name="RPC_Z_rest"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Embark C (1 if applies)"
+          placeholder="TSI_kin"
           required
           type="text"
-          name="embC"
+          name="TSI_kin"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Embark Q (1 if applies)"
+          placeholder="TSI_amplitude_kin"
           required
           type="text"
-          name="embQ"
+          name="TSI_amplitude_kin"
         />
       </div>
 
       <div class="form-group">
         <input
           class="form-control"
-          placeholder="Embark S (1 if applies)"
+          placeholder="TSI_rest"
           required
           type="text"
-          name="embS"
+          name="TSI_rest"
+        />
+      </div>
+
+      <div class="form-group">
+        <input
+          class="form-control"
+          placeholder="TSI_amplitude_rest"
+          required
+          type="text"
+          name="TSI_amplitude_rest"
         />
       </div>
 
       <input
         class="btn btn-primary btn-lg btn-block"
         type="submit"
-        value="Predict"
+        value="Classify"
       />
     </form>
   </body>

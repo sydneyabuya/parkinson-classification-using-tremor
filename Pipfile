@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 django = "*"
+sklearn = "*"
+scikit-learn = "*"
+scipy = "*"
+matplotlib = "*"
 
 [dev-packages]
 autopep8 = "*"

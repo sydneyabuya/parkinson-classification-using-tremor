@@ -9,12 +9,30 @@ def say_hello(request):
 def home(request):
     return render(request, 'index.html')
 
-def getPredictions(pclass, sex, age, sibsp, parch, fare, C, Q, S):
-    model = pickle.load(open('tremor_classifer_model.joblib', 'rb'))
-    #scaled = pickle.load(open('scaler.sav', 'rb'))
 
-    prediction = model.predict(model.transform([
-        [pclass, sex, age, sibsp, parch, fare, C, Q, S]
+def getClassifier(RPC_X_kin, RPC_Y_kin, RPC_Z_kin, RPC_X_rest, RPC_Y_rest, RPC_Z_rest, TSI_kin, TSI_amplitude_kin, TSI_rest, TSI_amplitude_rest):
+    model = pickle.load(open('tremor_classifier_model.joblib', 'rb'))
+    scaled = pickle.load(open('scaler.sav', 'rb'))
+    # ['RPC_X_kin',
+    #  'RPC_Y_kin',
+    #  'RPC_Z_kin',
+    #  'RPC_U_kin',
+    #  'RPC_X_rest',
+    #  'RPC_Y_rest',
+    #  'RPC_Z_rest',
+    #  'RPC_U_rest',
+    #  'TSI_kin',
+    #  'TSI_amplitude_kin',
+    #  'Mean Peak Amplitude_kin',
+    #  'Stddev Peak Amplitude_+kin',
+    #  'TSI_rest',
+    #  'TSI_amplitude_rest',
+    #  'Mean Peak Amplitude_rest',
+    #  'Stddev Peak Amplitude_+rest']
+
+    prediction = model.predict(scaled.transform([
+        [RPC_X_kin, RPC_Y_kin, RPC_Z_kin, RPC_X_rest, RPC_Y_rest, RPC_Z_rest,
+            TSI_kin, TSI_amplitude_kin, TSI_rest, TSI_amplitude_rest,]
     ]))
     
     if prediction == 0:
@@ -25,17 +43,18 @@ def getPredictions(pclass, sex, age, sibsp, parch, fare, C, Q, S):
         return 'error'
 
 def result(request):
-    pclass = int(request.GET['pclass'])
-    sex = int(request.GET['sex'])
-    age = int(request.GET['age'])
-    sibsp = int(request.GET['sibsp'])
-    parch = int(request.GET['parch'])
-    fare = int(request.GET['fare'])
-    embC = int(request.GET['embC'])
-    embQ = int(request.GET['embQ'])
-    embS = int(request.GET['embS'])
+    RPC_X_kin = float(request.GET['RPC_X_kin'])
+    RPC_Y_kin = float(request.GET['RPC_Y_kin'])
+    RPC_Z_kin = float(request.GET['RPC_Z_kin'])
+    RPC_X_rest = float(request.GET['RPC_X_rest'])
+    RPC_Y_rest = float(request.GET['RPC_Y_rest'])
+    RPC_Z_rest = float(request.GET['RPC_Z_rest'])
+    TSI_kin = float(request.GET['TSI_kin'])
+    TSI_amplitude_kin = float(request.GET['TSI_amplitude_kin'])
+    TSI_rest = float(request.GET['TSI_rest'])
+    TSI_amplitude_rest = float(request.GET['TSI_amplitude_rest'])
 
-    result = getPredictions(pclass, sex, age, sibsp,
-                            parch, fare, embC, embQ, embS)
+    result = getClassifier(RPC_X_kin, RPC_Y_kin, RPC_Z_kin, RPC_X_rest, RPC_Y_rest,
+                           RPC_Z_rest, TSI_kin, TSI_amplitude_kin, TSI_rest, TSI_amplitude_rest)
 
     return render(request, 'result.html', {'result': result})
