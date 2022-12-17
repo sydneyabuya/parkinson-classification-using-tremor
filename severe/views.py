@@ -1,6 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import pickle
+from django.contrib.auth import login as auth_login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 
 def say_hello(request):
     #return HttpResponse('Hello World')  
@@ -9,6 +11,28 @@ def say_hello(request):
 def home(request):
     return render(request, 'index.html')
 
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+
+            user = authenticate(username = username, password=password)
+            auth_login(request, user)
+            return redirect('home')
+    
+    else:
+        form = UserCreationForm()
+
+
+    return render(request, 'registration/register.html', {'form':form})
+
+def login(request):
+    form = UserCreationForm()
+    return render(request, 'registration/login.html', {'form': form})
 
 def getClassifier(RPC_X_kin, RPC_Y_kin, RPC_Z_kin, RPC_U_kin, RPC_X_rest, RPC_Y_rest, RPC_Z_rest, RPC_U_rest, TSI_kin, TSI_amplitude_kin, Mean_Peak_Amplitude_kin, Stddev_Peak_Amplitude_kin, TSI_rest, TSI_amplitude_rest, Mean_Peak_Amplitude_rest, Stddev_Peak_Amplitude_rest):
     model = pickle.load(open('tremor_classifier_model.joblib', 'rb'))

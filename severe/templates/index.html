@@ -1,3 +1,5 @@
+{% extends 'main/base.html' %} {% block content %}
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
@@ -31,6 +33,12 @@
   </head>
 
   <body class="center">
+    {% if user.is_authenticated %}
+    <h1 class="">Your name is {{ user.username }}</h1>
+    {% else %}
+    <h1 class="">You are not logged in</h1>
+    {% endif %}
+
     <h1 style="color: rgb(44, 44, 90); font-weight: 700">
       <i class="fas fa-ship"></i> Tremor Classifier
     </h1>
@@ -216,3 +224,4 @@
     </form>
   </body>
 </html>
+{% endblock %}

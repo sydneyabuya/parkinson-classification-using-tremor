@@ -16,9 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from severe import views as v
 
 #hello
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('severe/', include('severe.urls'))
+
+    path('register/',  v.register, name='register'),
+    path('login/',  v.login, name='login'),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('severe/', include('severe.urls')),
 ]
